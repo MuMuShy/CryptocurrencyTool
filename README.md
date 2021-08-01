@@ -1,6 +1,7 @@
 # CryptoTool
 
 CryptoTool是一個python撰寫的視窗應用程式 可以實時更新虛擬貨幣價格 並且可以輸入自己的資產並且會換算成台幣
+GUI WITH: https://github.com/Wanderson-Magalhaes/Simple_PySide_Base
 
 ## Installation
 
