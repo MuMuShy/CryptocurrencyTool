@@ -23,7 +23,7 @@ crpytoassets.txt 裡面為自己擁有的加密貨幣數量 可自行更改
 
 可直接於程式中修改加密貨幣數量
 資產歷史走勢
-區塊練地址查詢
+區塊鏈地址查詢
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
