@@ -1,0 +1,4 @@
+name=Mumu
+btc=0.0196
+eth=0.47318
+doge=1612.9

@@ -23,17 +23,19 @@ from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
 from PySide2.QtWidgets import *
 
 import files_rc
-
+import re
 
 class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
-        f = open('./crpytoassets.txt','r')
+        f = open('./userdata/user.txt','r',encoding='UTF-8')
         for line in f.readlines():
             print(line)
             line = line.split('=')
             print(line)
-            if line[0] == 'btc':
+            if line[0] =='name':
+                self.nickname = str(line[1])
+            elif line[0] == 'btc':
                 print(line)
                 self.btc_holdnum = float(line[1])
             elif line[0]=='eth':
@@ -758,13 +760,15 @@ class Ui_MainWindow(object):
         font6.setPointSize(14)
         self.label_person.setFont(font6)
         self.label_person.setAlignment(Qt.AlignLeft)
-        self.label_person.setText(QCoreApplication.translate("MainWindow", u"Mumu", None))
+        self.label_person.setText(QCoreApplication.translate("MainWindow", self.nickname, None))
         self.verticalLayout_person.addWidget(self.label_person)
         #橫向
         self.horizontalLayout_person = QHBoxLayout(self.page_person)
-        self.horizontalLayout_person.setContentsMargins(10, 10, 10, 10)
-        self.horizontalLayout_person.setSpacing(10)
+       # self.horizontalLayout_person.setContentsMargins(10, 10, 10, 10)
+       # self.horizontalLayout_person.setSpacing(10)
+
         self.verticalLayout_person.addLayout(self.horizontalLayout_person)
+
 
         #total
         self.label_all_price = QLabel()
@@ -781,7 +785,8 @@ class Ui_MainWindow(object):
         pixmap = QPixmap('btc@2x.png')
         pixmap = pixmap.scaled(150,150)
         self.label_btc.setPixmap(pixmap)
-        self.horizontalLayout_person.addWidget(self.label_btc)
+        self.label_btc.setAlignment(Qt.AlignCenter)
+        self.verticalLayout_person.addWidget(self.label_btc)
 
 
         self.label_btc_num = QLabel(self.label_btc)
@@ -792,14 +797,15 @@ class Ui_MainWindow(object):
         self.label_btc_num.setFont(font6)
         self.label_btc_num.setAlignment(Qt.AlignCenter)
         self.label_btc_num.setText(QCoreApplication.translate("MainWindow", u"$40000", None))
-        self.horizontalLayout_person.addWidget(self.label_btc_num)
+        self.verticalLayout_person.addWidget(self.label_btc_num)
 
         # eth
         self.label_eth = QLabel()
         pixmap = QPixmap('eth@2x.png')
         pixmap = pixmap.scaled(150, 150)
         self.label_eth.setPixmap(pixmap)
-        self.horizontalLayout_person.addWidget(self.label_eth)
+        self.label_eth.setAlignment(Qt.AlignCenter)
+        self.verticalLayout_person.addWidget(self.label_eth)
 
         self.label_eth_num = QLabel(self.label_eth)
         self.label_eth_num.setObjectName(u"eth")
@@ -809,14 +815,15 @@ class Ui_MainWindow(object):
         self.label_eth_num.setFont(font6)
         self.label_eth_num.setAlignment(Qt.AlignCenter)
         self.label_eth_num.setText(QCoreApplication.translate("MainWindow", u"$4300", None))
-        self.horizontalLayout_person.addWidget(self.label_eth_num)
+        self.verticalLayout_person.addWidget(self.label_eth_num)
 
         # doge
         self.label_doge = QLabel()
         pixmap = QPixmap('doge@2x.png')
         pixmap = pixmap.scaled(200, 200)
         self.label_doge.setPixmap(pixmap)
-        self.horizontalLayout_person.addWidget(self.label_doge)
+        self.label_doge.setAlignment(Qt.AlignCenter)
+        self.verticalLayout_person.addWidget(self.label_doge)
 
         self.label_doge_num = QLabel(self.label_doge)
         self.label_doge_num.setObjectName(u"eth")
@@ -826,7 +833,7 @@ class Ui_MainWindow(object):
         self.label_doge_num.setFont(font6)
         self.label_doge_num.setAlignment(Qt.AlignCenter)
         self.label_doge_num.setText(QCoreApplication.translate("MainWindow", u"$300", None))
-        self.horizontalLayout_person.addWidget(self.label_doge_num)
+        self.verticalLayout_person.addWidget(self.label_doge_num)
 
 
 
@@ -836,7 +843,7 @@ class Ui_MainWindow(object):
         pixmap = pixmap.scaled(200,200)
         self.img.setPixmap(pixmap)
         self.img.setAlignment(Qt.AlignCenter)
-        self.verticalLayout_person.addWidget(self.img)
+        #self.verticalLayout_person.addWidget(self.img)
 
         #價格
         self.label_btc = QLabel(self.page_home)
@@ -917,15 +924,16 @@ class Ui_MainWindow(object):
         self.frame_title_wid_1.setFrameShadow(QFrame.Raised)
         self.verticalLayout_8 = QVBoxLayout(self.frame_title_wid_1)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+
         self.labelBoxBlenderInstalation = QLabel(self.frame_title_wid_1)
         self.labelBoxBlenderInstalation.setObjectName(u"labelBoxBlenderInstalation")
         self.labelBoxBlenderInstalation.setFont(font1)
         self.labelBoxBlenderInstalation.setStyleSheet(u"")
 
-        self.verticalLayout_8.addWidget(self.labelBoxBlenderInstalation)
+        #self.verticalLayout_8.addWidget(self.labelBoxBlenderInstalation)
 
 
-        self.verticalLayout_7.addWidget(self.frame_title_wid_1)
+        #self.verticalLayout_7.addWidget(self.frame_title_wid_1)
 
         self.frame_content_wid_1 = QFrame(self.frame_div_content_1)
         self.frame_content_wid_1.setObjectName(u"frame_content_wid_1")
@@ -936,10 +944,10 @@ class Ui_MainWindow(object):
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(-1, -1, -1, 0)
-        self.lineEdit = QLineEdit(self.frame_content_wid_1)
-        self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setMinimumSize(QSize(0, 30))
-        self.lineEdit.setStyleSheet(u"QLineEdit {\n"
+        self.nickNameEdit = QLineEdit(self.frame_content_wid_1)
+        self.nickNameEdit.setObjectName(u"lineEdit")
+        self.nickNameEdit.setMinimumSize(QSize(0, 30))
+        self.nickNameEdit.setStyleSheet(u"QLineEdit {\n"
 "	background-color: rgb(27, 29, 35);\n"
 "	border-radius: 5px;\n"
 "	border: 2px solid rgb(27, 29, 35);\n"
@@ -952,16 +960,16 @@ class Ui_MainWindow(object):
 "	border: 2px solid rgb(91, 101, 124);\n"
 "}")
 
-        self.gridLayout.addWidget(self.lineEdit, 0, 0, 1, 1)
+        self.gridLayout.addWidget(self.nickNameEdit, 0, 0, 1, 1)
 
-        self.pushButton = QPushButton(self.frame_content_wid_1)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMinimumSize(QSize(150, 30))
+        self.nickNamePushButton = QPushButton(self.frame_content_wid_1)
+        self.nickNamePushButton.setObjectName(u"pushButton")
+        self.nickNamePushButton.setMinimumSize(QSize(150, 30))
         font8 = QFont()
         font8.setFamily(u"Segoe UI")
         font8.setPointSize(9)
-        self.pushButton.setFont(font8)
-        self.pushButton.setStyleSheet(u"QPushButton {\n"
+        self.nickNamePushButton.setFont(font8)
+        self.nickNamePushButton.setStyleSheet(u"QPushButton {\n"
 "	border: 2px solid rgb(52, 59, 72);\n"
 "	border-radius: 5px;	\n"
 "	background-color: rgb(52, 59, 72);\n"
@@ -976,16 +984,23 @@ class Ui_MainWindow(object):
 "}")
         icon3 = QIcon()
         icon3.addFile(u":/16x16/icons/16x16/cil-folder-open.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.pushButton.setIcon(icon3)
+        #self.nickNamePushButton.setIcon(icon3)
+        self.nickNamePushButton.setText('OK')
+        self.gridLayout.addWidget(self.nickNamePushButton, 0, 1, 1, 1)
+        self.nickNamePushButton.clicked.connect(self.set_nickName)
 
-        self.gridLayout.addWidget(self.pushButton, 0, 1, 1, 1)
+        self.nickNameStatus = QLabel()
+        self.nickNameStatus.setAlignment(Qt.AlignCenter)
+        self.nickNameStatus.setText("")
+        self.gridLayout.addWidget(self.nickNameStatus)
+
+
 
         self.labelVersion_3 = QLabel(self.frame_content_wid_1)
         self.labelVersion_3.setObjectName(u"labelVersion_3")
         self.labelVersion_3.setStyleSheet(u"color: rgb(98, 103, 111);")
         self.labelVersion_3.setLineWidth(1)
-        self.labelVersion_3.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
-
+        self.labelVersion_3.setAlignment(Qt.AlignLeading | Qt.AlignLeft | Qt.AlignVCenter)
         self.gridLayout.addWidget(self.labelVersion_3, 1, 0, 1, 2)
 
 
@@ -1011,64 +1026,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
         self.gridLayout_2 = QGridLayout()
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.checkBox = QCheckBox(self.frame_2)
-        self.checkBox.setObjectName(u"checkBox")
-        self.checkBox.setAutoFillBackground(False)
-        self.checkBox.setStyleSheet(u"")
 
-        self.gridLayout_2.addWidget(self.checkBox, 0, 0, 1, 1)
-
-        self.radioButton = QRadioButton(self.frame_2)
-        self.radioButton.setObjectName(u"radioButton")
-        self.radioButton.setStyleSheet(u"")
-
-        self.gridLayout_2.addWidget(self.radioButton, 0, 1, 1, 1)
-
-        self.verticalSlider = QSlider(self.frame_2)
-        self.verticalSlider.setObjectName(u"verticalSlider")
-        self.verticalSlider.setStyleSheet(u"")
-        self.verticalSlider.setOrientation(Qt.Vertical)
-
-        self.gridLayout_2.addWidget(self.verticalSlider, 0, 2, 3, 1)
-
-        self.verticalScrollBar = QScrollBar(self.frame_2)
-        self.verticalScrollBar.setObjectName(u"verticalScrollBar")
-        self.verticalScrollBar.setStyleSheet(u" QScrollBar:vertical {\n"
-"	border: none;\n"
-"    background: rgb(52, 59, 72);\n"
-"    width: 14px;\n"
-"    margin: 21px 0 21px 0;\n"
-"	border-radius: 0px;\n"
-" }")
-        self.verticalScrollBar.setOrientation(Qt.Vertical)
-
-        self.gridLayout_2.addWidget(self.verticalScrollBar, 0, 4, 3, 1)
-
-        self.scrollArea = QScrollArea(self.frame_2)
-        self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setStyleSheet(u"QScrollArea {\n"
-"	border: none;\n"
-"	border-radius: 0px;\n"
-"}\n"
-"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: rgb(52, 59, 72);\n"
-"    height: 14px;\n"
-"    margin: 0px 21px 0 21px;\n"
-"	border-radius: 0px;\n"
-"}\n"
-" QScrollBar:vertical {\n"
-"	border: none;\n"
-"    background: rgb(52, 59, 72);\n"
-"    width: 14px;\n"
-"    margin: 21px 0 21px 0;\n"
-"	border-radius: 0px;\n"
-" }\n"
-"")
-        self.scrollArea.setFrameShape(QFrame.NoFrame)
-        self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-        self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
         self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 274, 218))
@@ -1078,22 +1036,20 @@ class Ui_MainWindow(object):
         self.plainTextEdit.setObjectName(u"plainTextEdit")
         self.plainTextEdit.setMinimumSize(QSize(200, 200))
         self.plainTextEdit.setStyleSheet(u"QPlainTextEdit {\n"
-"	background-color: rgb(27, 29, 35);\n"
-"	border-radius: 5px;\n"
-"	padding: 10px;\n"
-"}\n"
-"QPlainTextEdit:hover {\n"
-"	border: 2px solid rgb(64, 71, 88);\n"
-"}\n"
-"QPlainTextEdit:focus {\n"
-"	border: 2px solid rgb(91, 101, 124);\n"
-"}")
+                                         "	background-color: rgb(27, 29, 35);\n"
+                                         "	border-radius: 5px;\n"
+                                         "	padding: 10px;\n"
+                                         "}\n"
+                                         "QPlainTextEdit:hover {\n"
+                                         "	border: 2px solid rgb(64, 71, 88);\n"
+                                         "}\n"
+                                         "QPlainTextEdit:focus {\n"
+                                         "	border: 2px solid rgb(91, 101, 124);\n"
+                                         "}")
 
         self.horizontalLayout_11.addWidget(self.plainTextEdit)
 
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
-        self.gridLayout_2.addWidget(self.scrollArea, 0, 5, 3, 1)
 
         self.comboBox = QComboBox(self.frame_2)
         self.comboBox.addItem("")
@@ -1123,57 +1079,60 @@ class Ui_MainWindow(object):
 
         self.gridLayout_2.addWidget(self.comboBox, 1, 0, 1, 2)
 
-        self.horizontalScrollBar = QScrollBar(self.frame_2)
-        self.horizontalScrollBar.setObjectName(u"horizontalScrollBar")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.horizontalScrollBar.sizePolicy().hasHeightForWidth())
-        self.horizontalScrollBar.setSizePolicy(sizePolicy5)
-        self.horizontalScrollBar.setStyleSheet(u"QScrollBar:horizontal {\n"
-"    border: none;\n"
-"    background: rgb(52, 59, 72);\n"
-"    height: 14px;\n"
-"    margin: 0px 21px 0 21px;\n"
-"	border-radius: 0px;\n"
-"}\n"
-"")
-        self.horizontalScrollBar.setOrientation(Qt.Horizontal)
+        # coin enter
+        self.AssetsEdit = QLineEdit(self.frame_content_wid_1)
+        self.AssetsEdit.setObjectName(u"lineEdit")
+        self.AssetsEdit.setMinimumSize(QSize(0, 30))
+        self.AssetsEdit.setStyleSheet(u"QLineEdit {\n"
+                                     "	background-color: rgb(27, 29, 35);\n"
+                                     "	border-radius: 5px;\n"
+                                     "	border: 2px solid rgb(27, 29, 35);\n"
+                                     "	padding-left: 10px;\n"
+                                     "}\n"
+                                     "QLineEdit:hover {\n"
+                                     "	border: 2px solid rgb(64, 71, 88);\n"
+                                     "}\n"
+                                     "QLineEdit:focus {\n"
+                                     "	border: 2px solid rgb(91, 101, 124);\n"
+                                     "}")
 
-        self.gridLayout_2.addWidget(self.horizontalScrollBar, 1, 3, 1, 1)
+        self.gridLayout_2.addWidget(self.AssetsEdit, 0, 0, 1, 1)
+        # enter button
+        self.assetsPushButton = QPushButton(self.frame_content_wid_1)
+        self.assetsPushButton.setObjectName(u"pushButton")
+        self.assetsPushButton.setMinimumSize(QSize(150, 30))
+        font8 = QFont()
+        font8.setFamily(u"Segoe UI")
+        font8.setPointSize(9)
+        self.assetsPushButton.setFont(font8)
+        self.assetsPushButton.setStyleSheet(u"QPushButton {\n"
+                                       "	border: 2px solid rgb(52, 59, 72);\n"
+                                       "	border-radius: 5px;	\n"
+                                       "	background-color: rgb(52, 59, 72);\n"
+                                       "}\n"
+                                       "QPushButton:hover {\n"
+                                       "	background-color: rgb(57, 65, 80);\n"
+                                       "	border: 2px solid rgb(61, 70, 86);\n"
+                                       "}\n"
+                                       "QPushButton:pressed {	\n"
+                                       "	background-color: rgb(35, 40, 49);\n"
+                                       "	border: 2px solid rgb(43, 50, 61);\n"
+                                       "}")
+        self.assetsPushButton.setText('輸入數量')
+        self.assetsPushButton.clicked.connect(self.enterAssets)
+        self.gridLayout_2.addWidget(self.assetsPushButton, 0, 40, 1, 1)
 
-        self.commandLinkButton = QCommandLinkButton(self.frame_2)
-        self.commandLinkButton.setObjectName(u"commandLinkButton")
-        self.commandLinkButton.setStyleSheet(u"QCommandLinkButton {	\n"
-"	color: rgb(85, 170, 255);\n"
-"	border-radius: 5px;\n"
-"	padding: 5px;\n"
-"}\n"
-"QCommandLinkButton:hover {	\n"
-"	color: rgb(210, 210, 210);\n"
-"	background-color: rgb(44, 49, 60);\n"
-"}\n"
-"QCommandLinkButton:pressed {	\n"
-"	color: rgb(210, 210, 210);\n"
-"	background-color: rgb(52, 58, 71);\n"
-"}")
-        icon4 = QIcon()
-        icon4.addFile(u":/16x16/icons/16x16/cil-link.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.commandLinkButton.setIcon(icon4)
-
-        self.gridLayout_2.addWidget(self.commandLinkButton, 1, 6, 1, 1)
-
-        self.horizontalSlider = QSlider(self.frame_2)
-        self.horizontalSlider.setObjectName(u"horizontalSlider")
-        self.horizontalSlider.setStyleSheet(u"")
-        self.horizontalSlider.setOrientation(Qt.Horizontal)
-
-        self.gridLayout_2.addWidget(self.horizontalSlider, 2, 0, 1, 2)
-
+        self.coinLabel = QLabel(self.frame_content_wid_1)
+        font6 = QFont()
+        font6.setFamily(u"Segoe UI")
+        font6.setPointSize(18)
+        self.coinLabel.setFont(font6)
+        self.coinLabel.setAlignment(Qt.AlignLeft)
+        self.coinLabel.setStyleSheet("background:transparent;")
+        self.coinLabel.setText('設定資產')
+        self.verticalLayout_6.addWidget(self.coinLabel)
 
         self.verticalLayout_11.addLayout(self.gridLayout_2)
-
-
         self.verticalLayout_6.addWidget(self.frame_2)
 
         self.frame_3 = QFrame(self.page_widgets)
@@ -1432,15 +1391,15 @@ class Ui_MainWindow(object):
         QWidget.setTabOrder(self.btn_minimize, self.btn_maximize_restore)
         QWidget.setTabOrder(self.btn_maximize_restore, self.btn_close)
         QWidget.setTabOrder(self.btn_close, self.btn_toggle_menu)
-        QWidget.setTabOrder(self.btn_toggle_menu, self.checkBox)
-        QWidget.setTabOrder(self.checkBox, self.comboBox)
-        QWidget.setTabOrder(self.comboBox, self.radioButton)
-        QWidget.setTabOrder(self.radioButton, self.horizontalSlider)
-        QWidget.setTabOrder(self.horizontalSlider, self.verticalSlider)
-        QWidget.setTabOrder(self.verticalSlider, self.scrollArea)
-        QWidget.setTabOrder(self.scrollArea, self.plainTextEdit)
+        #QWidget.setTabOrder(self.btn_toggle_menu, self.checkBox)
+        #QWidget.setTabOrder(self.checkBox, self.comboBox)
+        #QWidget.setTabOrder(self.comboBox, self.radioButton)
+        #QWidget.setTabOrder(self.radioButton, self.horizontalSlider)
+        #QWidget.setTabOrder(self.horizontalSlider, self.verticalSlider)
+        #QWidget.setTabOrder(self.verticalSlider, self.scrollArea)
+        #QWidget.setTabOrder(self.scrollArea, self.plainTextEdit)
         QWidget.setTabOrder(self.plainTextEdit, self.tableWidget)
-        QWidget.setTabOrder(self.tableWidget, self.commandLinkButton)
+        #QWidget.setTabOrder(self.tableWidget, self.commandLinkButton)
 
         self.retranslateUi(MainWindow)
 
@@ -1476,57 +1435,27 @@ class Ui_MainWindow(object):
         #self.label.setText(QCoreApplication.translate("MainWindow", u"Update with 5second", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"btc to the moon", None))
         self.labelBoxBlenderInstalation.setText(QCoreApplication.translate("MainWindow", u"BLENDER INSTALLATION", None))
-        self.lineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Your Password", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Open Blender", None))
-        self.labelVersion_3.setText(QCoreApplication.translate("MainWindow", u"Ex: C:Program FilesBlender FoundationBlender 2.82 blender.exe", None))
-        self.checkBox.setText(QCoreApplication.translate("MainWindow", u"CheckBox", None))
-        self.radioButton.setText(QCoreApplication.translate("MainWindow", u"RadioButton", None))
-        self.comboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"Test 1", None))
-        self.comboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"Test 2", None))
-        self.comboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Test 3", None))
+        self.nickNameEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"設定暱稱", None))
+        #self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Open Blender", None))
+        #self.checkBox.setText(QCoreApplication.translate("MainWindow", u"CheckBox", None))
+        #self.radioButton.setText(QCoreApplication.translate("MainWindow", u"RadioButton", None))
+        self.comboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"BTC", None))
+        self.comboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"ETH", None))
+        self.comboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"DOGE", None))
 
-        self.commandLinkButton.setText(QCoreApplication.translate("MainWindow", u"CommandLinkButton", None))
-        self.commandLinkButton.setDescription(QCoreApplication.translate("MainWindow", u"Open External Link", None))
+        #self.commandLinkButton.setText(QCoreApplication.translate("MainWindow", u"CommandLinkButton", None))
+        #self.commandLinkButton.setDescription(QCoreApplication.translate("MainWindow", u"Open External Link", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"0", None));
+        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"幣種", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"1", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"數量", None));
         ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"2", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"價格", None));
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"3", None));
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"日期", None));
         ___qtablewidgetitem4 = self.tableWidget.verticalHeaderItem(0)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem5 = self.tableWidget.verticalHeaderItem(1)
-        ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem6 = self.tableWidget.verticalHeaderItem(2)
-        ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem7 = self.tableWidget.verticalHeaderItem(3)
-        ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem8 = self.tableWidget.verticalHeaderItem(4)
-        ___qtablewidgetitem8.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem9 = self.tableWidget.verticalHeaderItem(5)
-        ___qtablewidgetitem9.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem10 = self.tableWidget.verticalHeaderItem(6)
-        ___qtablewidgetitem10.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem11 = self.tableWidget.verticalHeaderItem(7)
-        ___qtablewidgetitem11.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem12 = self.tableWidget.verticalHeaderItem(8)
-        ___qtablewidgetitem12.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem13 = self.tableWidget.verticalHeaderItem(9)
-        ___qtablewidgetitem13.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem14 = self.tableWidget.verticalHeaderItem(10)
-        ___qtablewidgetitem14.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem15 = self.tableWidget.verticalHeaderItem(11)
-        ___qtablewidgetitem15.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem16 = self.tableWidget.verticalHeaderItem(12)
-        ___qtablewidgetitem16.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem17 = self.tableWidget.verticalHeaderItem(13)
-        ___qtablewidgetitem17.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem18 = self.tableWidget.verticalHeaderItem(14)
-        ___qtablewidgetitem18.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
-        ___qtablewidgetitem19 = self.tableWidget.verticalHeaderItem(15)
-        ___qtablewidgetitem19.setText(QCoreApplication.translate("MainWindow", u"New Row", None));
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"1246", None));
+
 
         __sortingEnabled = self.tableWidget.isSortingEnabled()
         self.tableWidget.setSortingEnabled(False)
@@ -1543,6 +1472,50 @@ class Ui_MainWindow(object):
         self.label_credits.setText(QCoreApplication.translate("MainWindow", u"UI Registered by: Wanderson M. Pimenta ", None))
         self.label_version.setText(QCoreApplication.translate("MainWindow", u"v1.0.0", None))
     # retranslateUi
+    def enterAssets(self):
+        num = self.tableWidget.rowCount()
+        index =0
+        flag = True
+        for i in range(num):
+            if self.tableWidget.item(i, 0) is None:
+                print(i)
+                index = i-1
+                break
+            else:
+                print(self.tableWidget.item(i, 0).text())
+        print('index is:',index)
+        num = self.AssetsEdit.text()
+        print(num)
+        if self.is_number(num) is False:
+            return
+        type = str(self.comboBox.currentText())
+        print(type+ 'enter'+num)
+        if type =='BTC':
+            self.btc_holdnum = float(num)
+        elif type=='ETH':
+            self.eth_holdnum = float(num)
+        elif type=='DOGE':
+            self.doge_holdnum = float(num)
+
+        ___qtablewidgetitem20 = self.tableWidget.item(index, 0)
+        ___qtablewidgetitem20.setText(QCoreApplication.translate("MainWindow",type, None));
+        ___qtablewidgetitem21 = self.tableWidget.item(index, 1)
+        ___qtablewidgetitem21.setText(QCoreApplication.translate("MainWindow", num, None));
+        ___qtablewidgetitem22 = self.tableWidget.item(index, 2)
+        ___qtablewidgetitem22.setText(QCoreApplication.translate("MainWindow",'1997/05/26', None));
+        ___qtablewidgetitem23 = self.tableWidget.item(index, 3)
+        ___qtablewidgetitem23.setText(QCoreApplication.translate("MainWindow",'??', None));
+
+        namesave = 'name='+self.nickname+'\n'
+        btc ='btc='+str(self.btc_holdnum)+'\n'
+        eth = 'eth='+str(self.eth_holdnum)+'\n'
+        doge = 'doge='+str(self.doge_holdnum)+'\n'
+        fp = open('./userdata/user.txt', 'w',encoding='utf-8')
+        fp.write(namesave)
+        fp.write(btc)
+        fp.write(eth)
+        fp.write(doge)
+        fp.close()
 
     def btcPriceChange(self,data):
         data = float(data)
@@ -1620,3 +1593,18 @@ class Ui_MainWindow(object):
         all_worth = str(all_worth)
 
         self.label_all_price.setText(QCoreApplication.translate("MainWindow", u"Total TWD$:"+'<font color='+all_worth_status+'>'+twd+'</font>', None))
+
+
+    def is_number(self,num):
+        pattern = re.compile(r'^[-+]?[-0-9]\d*\.\d*|[-+]?\.?[0-9]\d*$')
+        result = pattern.match(num)
+        if result:
+            return True
+        else:
+            return False
+
+    def set_nickName(self):
+        print('change name')
+        self.nickname = self.nickNameEdit.text()
+        self.label_person.setText(QCoreApplication.translate("MainWindow",self.nickname, None))
+        self.nickNameStatus.setText('設定成功')
