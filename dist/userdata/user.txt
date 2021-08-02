@@ -1,4 +1,4 @@
-name=Mumu
-btc=0.0196
+name=mumu
+btc=1.0
 eth=0.47318
 doge=1612.9

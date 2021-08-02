@@ -20,6 +20,7 @@ crpytoassets.txt 裡面為自己擁有的加密貨幣數量 可自行更改
 
 ![alt text](https://github.com/MuMuShy/CryptoTool/blob/main/screenshot/2.jpg)
 ![alt text](https://github.com/MuMuShy/CryptoTool/blob/main/screenshot/1.jpg)
+![alt text](https://github.com/MuMuShy/CryptoTool/blob/main/screenshot/3.jpg)
 
 ## ToDo
 
