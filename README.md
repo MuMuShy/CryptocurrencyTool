@@ -13,7 +13,6 @@ python main.py
 
 for user: 下載dist 執行裡面的main.exe
 
-crpytoassets.txt 裡面為自己擁有的加密貨幣數量 可自行更改
 
 ## ScreenShot
 
