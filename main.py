@@ -173,14 +173,14 @@ class MainWindow(QMainWindow):
         if btnWidget.objectName() == "btn_new_user":
             self.ui.stackedWidget.setCurrentWidget(self.ui.page_person)
             UIFunctions.resetStyle(self, "btn_new_user")
-            UIFunctions.labelPage(self, "New User")
+            UIFunctions.labelPage(self, "UserAssets")
             btnWidget.setStyleSheet(UIFunctions.selectMenu(btnWidget.styleSheet()))
 
         # PAGE WIDGETS
         if btnWidget.objectName() == "btn_widgets":
             self.ui.stackedWidget.setCurrentWidget(self.ui.page_widgets)
             UIFunctions.resetStyle(self, "btn_widgets")
-            UIFunctions.labelPage(self, "Custom Widgets")
+            UIFunctions.labelPage(self, "Setting")
             btnWidget.setStyleSheet(UIFunctions.selectMenu(btnWidget.styleSheet()))
 
     ## ==> END ##
@@ -243,7 +243,6 @@ class PriceThread(QThread):
 
     def run(self):
         while True:
-            #print('price:')
             price = self.data.get_my_combine()
             self.signal.emit(price)
             time.sleep(2)

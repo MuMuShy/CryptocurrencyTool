@@ -24,10 +24,13 @@ from PySide2.QtWidgets import *
 
 import files_rc
 import re
-
+import usdtPrice
+import time
+USDFORTWD = -1
 class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
+        USDFORTWD = usdtPrice.FiatCurrency().getUsdtWith('ntd')
         f = open('./userdata/user.txt','r',encoding='UTF-8')
         for line in f.readlines():
             print(line)
@@ -769,16 +772,34 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_person.addLayout(self.horizontalLayout_person)
 
+        #total usdt
+        self.label_all_usdt = QLabel()
+        fontusdt = QFont()
+        fontusdt.setFamily(u"Segoe UI")
+        fontusdt.setPointSize(30)
+        self.label_all_usdt.setFont(font6)
+        self.label_all_usdt.setAlignment(Qt.AlignCenter)
+        self.label_all_usdt.setText(QCoreApplication.translate("MainWindow", u"TOTAL USDT: $1345646", None))
+        self.verticalLayout_person.addWidget(self.label_all_usdt)
 
         #total
         self.label_all_price = QLabel()
         font6 = QFont()
         font6.setFamily(u"Segoe UI")
-        font6.setPointSize(45)
+        font6.setPointSize(30)
         self.label_all_price.setFont(font6)
         self.label_all_price.setAlignment(Qt.AlignCenter)
-        self.label_all_price.setText(QCoreApplication.translate("MainWindow", u"ALL TOTAL: $1345646", None))
+        self.label_all_price.setText(QCoreApplication.translate("MainWindow", u"TOTAL TWD: $1345646", None))
         self.verticalLayout_person.addWidget(self.label_all_price)
+        #法幣
+        self.label_fiatCurrency = QLabel()
+        fontfiat = QFont()
+        fontfiat.setFamily(u"Segoe UI")
+        fontfiat.setPointSize(15)
+        self.label_fiatCurrency.setFont(fontfiat)
+        self.label_fiatCurrency.setAlignment(Qt.AlignCenter)
+        self.label_fiatCurrency.setText(QCoreApplication.translate("MainWindow", u"USD/TWD = 1:30", None))
+        self.verticalLayout_person.addWidget(self.label_fiatCurrency)
 
         #btc
         self.label_btc = QLabel()
@@ -1459,14 +1480,7 @@ class Ui_MainWindow(object):
 
         __sortingEnabled = self.tableWidget.isSortingEnabled()
         self.tableWidget.setSortingEnabled(False)
-        ___qtablewidgetitem20 = self.tableWidget.item(0, 0)
-        ___qtablewidgetitem20.setText(QCoreApplication.translate("MainWindow", u"Test", None));
-        ___qtablewidgetitem21 = self.tableWidget.item(0, 1)
-        ___qtablewidgetitem21.setText(QCoreApplication.translate("MainWindow", u"Text", None));
-        ___qtablewidgetitem22 = self.tableWidget.item(0, 2)
-        ___qtablewidgetitem22.setText(QCoreApplication.translate("MainWindow", u"Cell", None));
-        ___qtablewidgetitem23 = self.tableWidget.item(0, 3)
-        ___qtablewidgetitem23.setText(QCoreApplication.translate("MainWindow", u"Line", None));
+
         self.tableWidget.setSortingEnabled(__sortingEnabled)
 
         self.label_credits.setText(QCoreApplication.translate("MainWindow", u"UI Registered by: Wanderson M. Pimenta ", None))
@@ -1477,12 +1491,10 @@ class Ui_MainWindow(object):
         index =0
         flag = True
         for i in range(num):
-            if self.tableWidget.item(i, 0) is None:
+            if self.tableWidget.item(i, 0) is not None:
                 print(i)
-                index = i-1
-                break
-            else:
-                print(self.tableWidget.item(i, 0).text())
+                index = i
+
         print('index is:',index)
         num = self.AssetsEdit.text()
         print(num)
@@ -1490,21 +1502,24 @@ class Ui_MainWindow(object):
             return
         type = str(self.comboBox.currentText())
         print(type+ 'enter'+num)
-        if type =='BTC':
+        if type == 'BTC':
             self.btc_holdnum = float(num)
-        elif type=='ETH':
+            price = self.last_btc_price
+        elif type == 'ETH':
             self.eth_holdnum = float(num)
-        elif type=='DOGE':
+            price = self.last_eth_price
+        elif type == 'DOGE':
             self.doge_holdnum = float(num)
+            price = self.last_doge_price
 
         ___qtablewidgetitem20 = self.tableWidget.item(index, 0)
         ___qtablewidgetitem20.setText(QCoreApplication.translate("MainWindow",type, None));
         ___qtablewidgetitem21 = self.tableWidget.item(index, 1)
         ___qtablewidgetitem21.setText(QCoreApplication.translate("MainWindow", num, None));
         ___qtablewidgetitem22 = self.tableWidget.item(index, 2)
-        ___qtablewidgetitem22.setText(QCoreApplication.translate("MainWindow",'1997/05/26', None));
+        ___qtablewidgetitem22.setText(QCoreApplication.translate("MainWindow",str(price), None));
         ___qtablewidgetitem23 = self.tableWidget.item(index, 3)
-        ___qtablewidgetitem23.setText(QCoreApplication.translate("MainWindow",'??', None));
+        ___qtablewidgetitem23.setText(QCoreApplication.translate("MainWindow",time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) , None));
 
         namesave = 'name='+self.nickname+'\n'
         btc ='btc='+str(self.btc_holdnum)+'\n'
@@ -1570,19 +1585,20 @@ class Ui_MainWindow(object):
             doge_status = "red"
         self.last_doge_price  = data_doge
         worth = self.doge_holdnum * data_doge
-        worth = round(worth, 2)
+        worth = round(worth, 4)
         all_worth += worth
         worth = str(worth)
-        holdnum = round(self.doge_holdnum, 2)
+        holdnum = round(self.doge_holdnum, 4)
         holdnum = str(holdnum)
         self.label_doge_num.setText(
         QCoreApplication.translate("MainWindow", u"Doge:" + holdnum+ "$:" + '<font color='+doge_status+'>'+worth+'</font>', None))
-        data_doge = round(data_doge, 2)
+        data_doge = round(data_doge, 4)
         data_doge = str(data_doge)
         self.label_doge.setText(QCoreApplication.translate("MainWindow", u"Doge    $:" + '<font color='+doge_status+'>'+data_doge+'</font>', None))
 
         all_worth = round(all_worth,2)
-        twd = all_worth*29
+        USDFORTWD = usdtPrice.FiatCurrency().getUsdtWith('ntd')
+        twd = all_worth*USDFORTWD
         twd = round(twd,2)
         twd = str(twd)
         if all_worth>self.last_all_price:
@@ -1592,8 +1608,10 @@ class Ui_MainWindow(object):
         self.last_all_price = all_worth
         all_worth = str(all_worth)
 
-        self.label_all_price.setText(QCoreApplication.translate("MainWindow", u"Total TWD$:"+'<font color='+all_worth_status+'>'+twd+'</font>', None))
 
+        self.label_all_usdt.setText(QCoreApplication.translate("MainWindow", u"Total USDT : " + '<font color=' + all_worth_status + '>' + str(all_worth) + '</font>',None))
+        self.label_all_price.setText(QCoreApplication.translate("MainWindow", u"Total TWD : "+'<font color='+all_worth_status+'>'+twd+'</font>', None))
+        self.label_fiatCurrency.setText(QCoreApplication.translate("MainWindow", u"USD/TWD = 1:"+str(USDFORTWD), None))
 
     def is_number(self,num):
         pattern = re.compile(r'^[-+]?[-0-9]\d*\.\d*|[-+]?\.?[0-9]\d*$')
